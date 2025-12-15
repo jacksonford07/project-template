@@ -281,6 +281,108 @@ Ask yourself:
 
 ---
 
+## UI Patterns & Best Practices
+
+### 1. Toast Notifications for Button Feedback
+
+**Every button that performs an action must provide visual feedback.** Use a toast notification system so users know their action worked.
+
+```tsx
+// Toast Context Pattern
+interface Toast {
+  id: number;
+  message: string;
+  type: 'success' | 'info' | 'error';
+}
+
+interface ToastContextType {
+  showToast: (message: string, type?: 'success' | 'info' | 'error') => void;
+}
+
+const ToastContext = createContext<ToastContextType | null>(null);
+
+function ToastProvider({ children }: { children: ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' = 'success') => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 2500);
+  }, []);
+
+  return (
+    <ToastContext.Provider value={{ showToast }}>
+      {children}
+      {/* Toast container renders toasts in bottom-right corner */}
+    </ToastContext.Provider>
+  );
+}
+
+// Usage in components
+const { showToast } = useToast();
+
+const handleCopy = async () => {
+  await navigator.clipboard.writeText(value);
+  showToast('Copied to clipboard!', 'success');
+};
+
+const handleDownload = () => {
+  // ... download logic
+  showToast('Downloaded successfully!', 'success');
+};
+```
+
+**When to use toasts:**
+- Copy to clipboard actions
+- Download actions
+- Form submissions
+- Save/update actions
+- Any action that completes without page navigation
+
+### 2. Curated Filter Categories (Not Dynamic)
+
+**Prefer curated filter lists over dynamically generated ones.** Dynamic filters from data tags can create too many options and overwhelm users.
+
+```tsx
+// BAD: Dynamic filters from all tags - creates clutter
+const allTags = ['All', ...Array.from(new Set(themes.flatMap(t => t.tags)))];
+// Result: 18+ filter buttons making UI unusable
+
+// GOOD: Curated, meaningful categories
+const filterCategories = ['All', 'Dark', 'Warm', 'Cool', 'Minimal', 'Vibrant'];
+// Result: 6 focused options that users can quickly scan
+```
+
+**Filter implementation tips:**
+- Limit to 5-8 filter options maximum
+- Use case-insensitive matching
+- Match against multiple fields (tags, description, name)
+- Provide a clear "All" option to reset
+
+```tsx
+// Good filter logic - case insensitive, multi-field matching
+const matchesFilter = filter === 'All' ||
+  item.tags.some(tag => tag.toLowerCase() === filter.toLowerCase()) ||
+  item.tags.some(tag => tag.toLowerCase().includes(filter.toLowerCase())) ||
+  item.description.toLowerCase().includes(filter.toLowerCase());
+```
+
+### 3. Testable Buttons Checklist
+
+Every button in the UI should be testable by the user. This means:
+
+1. **Copy buttons** → Show toast with "Copied [value]"
+2. **Download buttons** → Show toast with "Downloaded [item name]"
+3. **Submit buttons** → Show loading state, then success/error toast
+4. **Toggle buttons** → Show clear visual state change
+5. **Filter buttons** → Immediately update content, show active state
+6. **Search inputs** → Filter content in real-time as user types
+7. **Clear/Reset buttons** → Reset to initial state, optionally show toast
+
+---
+
 ## What NOT to Do
 
 1. **Don't delete files** without checking dependencies first

@@ -80,6 +80,9 @@ Direct and efficient. No lengthy explanations. Status updates as:
 - [ ] Empty states handled (0 results)
 - [ ] Error states handled
 - [ ] Loading states shown where needed
+- [ ] **Toast notifications** for copy/download/submit actions
+- [ ] **Curated filters** (5-8 max) instead of dynamic tag lists
+- [ ] **Case-insensitive** matching for search and filters
 
 ### Verification
 - [ ] Tests pass
