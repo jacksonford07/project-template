@@ -1,6 +1,68 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, createContext, useContext, ReactNode } from 'react';
+
+// ============================================================================
+// TOAST CONTEXT
+// ============================================================================
+
+interface Toast {
+  id: number;
+  message: string;
+  type: 'success' | 'info';
+}
+
+interface ToastContextType {
+  showToast: (message: string, type?: 'success' | 'info') => void;
+}
+
+const ToastContext = createContext<ToastContextType | null>(null);
+
+function useToast() {
+  const context = useContext(ToastContext);
+  if (!context) {
+    throw new Error('useToast must be used within ToastProvider');
+  }
+  return context;
+}
+
+function ToastProvider({ children }: { children: ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = useCallback((message: string, type: 'success' | 'info' = 'success') => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 2500);
+  }, []);
+
+  return (
+    <ToastContext.Provider value={{ showToast }}>
+      {children}
+      {/* Toast Container */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2">
+        {toasts.map(toast => (
+          <div
+            key={toast.id}
+            className={`px-4 py-3 rounded-xl shadow-lg animate-fade-in-scale flex items-center gap-2 ${
+              toast.type === 'success'
+                ? 'bg-green-500/90 text-white'
+                : 'bg-zinc-800 text-white border border-white/10'
+            }`}
+          >
+            {toast.type === 'success' && (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+            <span className="text-sm font-medium">{toast.message}</span>
+          </div>
+        ))}
+      </div>
+    </ToastContext.Provider>
+  );
+}
 
 // ============================================================================
 // TYPES
@@ -158,7 +220,8 @@ const themes: Theme[] = [
   },
 ];
 
-const allTags = ['All', ...Array.from(new Set(themes.flatMap(t => t.tags)))];
+// Curated filter categories (not all tags, just main categories)
+const filterCategories = ['All', 'Dark', 'Warm', 'Cool', 'Minimal', 'Vibrant'];
 
 // ============================================================================
 // UTILITY FUNCTIONS
@@ -225,16 +288,18 @@ function GitHubIcon({ className = 'w-5 h-5' }: { className?: string }) {
 
 function ColorSwatch({ name, color }: { name: string; color: string }) {
   const [copied, setCopied] = useState(false);
+  const { showToast } = useToast();
 
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(color);
       setCopied(true);
+      showToast(`Copied ${color}`, 'success');
       setTimeout(() => setCopied(false), 1500);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
-  }, [color]);
+  }, [color, showToast]);
 
   return (
     <button
@@ -340,6 +405,7 @@ function ThemeCard({
 
 function ThemePreview({ theme }: { theme: Theme }) {
   const [allCopied, setAllCopied] = useState(false);
+  const { showToast } = useToast();
 
   const handleCopyAll = useCallback(async () => {
     const css = Object.entries(theme.colors)
@@ -350,17 +416,19 @@ function ThemePreview({ theme }: { theme: Theme }) {
     try {
       await navigator.clipboard.writeText(fullCss);
       setAllCopied(true);
+      showToast('Copied all CSS variables!', 'success');
       setTimeout(() => setAllCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
-  }, [theme.colors]);
+  }, [theme.colors, showToast]);
 
   const handleDownload = useCallback(() => {
     const css = Object.entries(theme.colors)
       .map(([name, color]) => `  --${name}: ${color};`)
       .join('\n');
     const fullCss = `/* ${theme.name} Theme by ${theme.author} */\n:root {\n${css}\n}`;
+    showToast(`Downloaded ${theme.name} theme!`, 'success');
 
     const blob = new Blob([fullCss], { type: 'text/css' });
     const url = URL.createObjectURL(blob);
@@ -371,7 +439,7 @@ function ThemePreview({ theme }: { theme: Theme }) {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, [theme]);
+  }, [theme, showToast]);
 
   return (
     <div className="rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/50">
@@ -487,7 +555,7 @@ function EmptyState({
 // MAIN PAGE COMPONENT
 // ============================================================================
 
-export default function Home() {
+function HomeContent() {
   const [selectedTheme, setSelectedTheme] = useState<Theme>(themes[0] as Theme);
   const [filter, setFilter] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -501,8 +569,11 @@ export default function Home() {
       t.author.toLowerCase().includes(query) ||
       t.tags.some(tag => tag.toLowerCase().includes(query));
 
+    // Case-insensitive tag matching - check if any theme tag contains or equals the filter
     const matchesFilter = filter === 'All' ||
-      t.tags.includes(filter);
+      t.tags.some(tag => tag.toLowerCase() === filter.toLowerCase()) ||
+      t.tags.some(tag => tag.toLowerCase().includes(filter.toLowerCase())) ||
+      t.description.toLowerCase().includes(filter.toLowerCase());
 
     return matchesSearch && matchesFilter;
   });
@@ -569,17 +640,17 @@ export default function Home() {
 
           {/* Filter Tabs */}
           <div className="flex justify-center gap-2 flex-wrap" style={{ animationDelay: '0.1s' }}>
-            {allTags.map((tag) => (
+            {filterCategories.map((category) => (
               <button
-                key={tag}
-                onClick={() => setFilter(tag)}
+                key={category}
+                onClick={() => setFilter(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  filter === tag
+                  filter === category
                     ? 'bg-white text-zinc-900'
                     : 'bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white border border-white/10'
                 }`}
               >
-                {tag}
+                {category}
               </button>
             ))}
           </div>
@@ -652,5 +723,13 @@ export default function Home() {
         </div>
       </footer>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <ToastProvider>
+      <HomeContent />
+    </ToastProvider>
   );
 }
