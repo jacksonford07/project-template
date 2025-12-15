@@ -71,10 +71,21 @@ Direct and efficient. No lengthy explanations. Status updates as:
 - [ ] Lint passes
 - [ ] Type check passes
 
+### UI Completion Audit (CRITICAL)
+- [ ] Every button has an onClick handler
+- [ ] Every form input is connected to state
+- [ ] Search/filter inputs actually filter content
+- [ ] No `href="#"` links - real URLs or removed
+- [ ] All interactive elements function
+- [ ] Empty states handled (0 results)
+- [ ] Error states handled
+- [ ] Loading states shown where needed
+
 ### Verification
 - [ ] Tests pass
 - [ ] Manual verification done
 - [ ] No regressions
+- [ ] **Clicked every button/link to verify it works**
 
 ### Completion
 - [ ] Committed with proper message
@@ -94,6 +105,8 @@ When user says:
 2. **Test everything** - No exceptions
 3. **Keep it small** - If scope creeps, stop and reassess
 4. **Document decisions** - Brief notes for non-obvious choices
+5. **Complete every feature** - No placeholder UI, no dead links, no non-functional elements
+6. **If you add UI, make it work** - Search bars must search, buttons must do something, links must go somewhere real
 
 ## Escalation
 

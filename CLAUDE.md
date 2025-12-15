@@ -200,6 +200,87 @@ Examples:
 
 ---
 
+## CRITICAL: Feature Completion Rule
+
+**EVERY feature must be 100% functional. No placeholder UI allowed.**
+
+### The Completion Checklist
+
+Before considering ANY UI element done, verify:
+
+1. **Interactive elements work**
+   - Buttons trigger actions
+   - Forms submit and validate
+   - Search bars filter content
+   - Links navigate to real destinations
+   - Modals open/close properly
+
+2. **All states are handled**
+   - Loading states
+   - Empty states (no results)
+   - Error states
+   - Success feedback
+   - Disabled states when appropriate
+
+3. **Edge cases covered**
+   - What happens with 0 items?
+   - What happens with 1000 items?
+   - What if the user types special characters?
+   - What if network fails?
+
+4. **Links go somewhere real**
+   - No `href="#"` unless it's an anchor link
+   - External links: Either link to real URLs or remove the element
+   - Social links: Connect to actual profiles or remove them
+
+### Examples of INCOMPLETE (Not Allowed)
+
+```tsx
+// BAD: Search bar that does nothing
+<input placeholder="Search..." />
+
+// BAD: Button with no handler
+<button>Submit</button>
+
+// BAD: Link to nowhere
+<a href="#">Learn More</a>
+
+// BAD: Social links to hash
+<a href="#">Twitter</a>
+<a href="#">GitHub</a>
+```
+
+### Examples of COMPLETE (Required)
+
+```tsx
+// GOOD: Functional search with state
+const [query, setQuery] = useState('');
+const filtered = items.filter(i => i.name.includes(query));
+<input value={query} onChange={e => setQuery(e.target.value)} />
+
+// GOOD: Button with handler
+<button onClick={handleSubmit}>Submit</button>
+
+// GOOD: Real link or removed entirely
+<a href="https://docs.example.com">Learn More</a>
+
+// GOOD: Either real social links or remove the section
+<a href="https://twitter.com/actualhandle">Twitter</a>
+// OR just don't include social links if not applicable
+```
+
+### Before Marking Any Task Complete
+
+Ask yourself:
+- Can a user actually USE every visible element?
+- Does clicking everything do what it looks like it should?
+- Are there any "dead" buttons or links?
+- Would this pass a QA review?
+
+**If any UI element is non-functional, the feature is NOT complete.**
+
+---
+
 ## What NOT to Do
 
 1. **Don't delete files** without checking dependencies first
@@ -209,6 +290,9 @@ Examples:
 5. **Don't create new utilities** without checking for existing ones
 6. **Don't push** without explicit approval
 7. **Don't skip BMAD workflow** for non-trivial features
+8. **Don't add placeholder UI** - every element must be functional
+9. **Don't use `href="#"`** - either link to something real or remove it
+10. **Don't add search/filter UI** without implementing the logic
 
 ## What TO Do
 
@@ -219,3 +303,6 @@ Examples:
 5. **Follow database-first** pattern for APIs
 6. **Use conventional commits** for all commits
 7. **Test incrementally** after each change
+8. **Complete every feature** - no visual-only elements
+9. **Verify all interactivity** before marking done
+10. **Remove unused UI** rather than leaving it broken
