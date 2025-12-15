@@ -1,0 +1,44 @@
+---
+description: Code quality and commit standards
+alwaysApply: true
+---
+# Code Quality Standards
+
+## Commit Message Convention
+
+All commits MUST follow Conventional Commits format:
+
+```
+<type>(<scope>): <subject>
+```
+
+Valid types: feat, fix, docs, style, refactor, perf, test, chore, ci, build, revert
+
+## TypeScript Requirements
+
+- NO `any` types - be explicit with types
+- NO non-null assertions (`!`) - handle null cases properly
+- MUST handle promises properly (no floating promises)
+- USE optional chaining (`?.`) and nullish coalescing (`??`)
+- ALWAYS add return types to functions
+
+## Code Quality Standards
+
+- ALWAYS use curly braces for all blocks
+- NO `var` - use `const`/`let`
+- USE template literals instead of string concatenation
+- NO nested ternaries - use if/else for clarity
+- Functions should have <= 5 parameters
+- Files should be <= 1000 lines
+
+## Import Organization
+
+Imports MUST be organized in this order with blank lines between groups:
+1. Built-in modules
+2. External modules
+3. Internal modules
+4. Parent imports
+5. Sibling imports
+6. Index imports
+
+All alphabetically sorted within groups.

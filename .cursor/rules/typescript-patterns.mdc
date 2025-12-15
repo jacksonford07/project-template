@@ -1,0 +1,80 @@
+---
+description: TypeScript patterns and best practices
+globs: **/*.ts,**/*.tsx
+---
+# TypeScript Patterns & Best Practices
+
+## Import Order (ESLint Enforced)
+
+Always follow this order:
+```typescript
+// 1. External libraries
+import { NextRequest } from 'next/server';
+
+// 2. Internal utilities (alphabetical)
+import { prisma } from '@/lib/prisma';
+import { logger } from '@/lib/logger';
+```
+
+## Unused Variables
+
+Prefix with underscore if intentionally unused:
+```tsx
+// Bad
+const { userId, agencyId } = access;  // userId unused
+
+// Good
+const { agencyId } = access;  // Only use what you need
+
+// Also good
+const { userId: _userId, agencyId } = access;  // Explicit unused
+```
+
+## Type Safety
+
+### Strict Type Requirements
+```tsx
+// FORBIDDEN - Will cause build errors
+const data: any = fetchData();
+const user = data!.user;  // Non-null assertion
+
+// Required - Explicit types and null handling
+interface UserData {
+  user?: { id: string; name: string };
+}
+const data: UserData = fetchData();
+const user = data.user ?? null;
+```
+
+### Boolean Expressions
+```tsx
+// Bad - Implicit boolean conversion
+if (user) { }
+if (items.length) { }
+
+// Good - Explicit boolean checks
+if (user !== null && user !== undefined) { }
+if (items.length > 0) { }
+```
+
+### Promise Handling
+```tsx
+// Bad - Floating promise
+fetchData();  // ESLint error
+
+// Good - Proper handling
+await fetchData();
+// or
+void fetchData();  // Explicitly ignore
+```
+
+### Optional Chaining & Nullish Coalescing
+```tsx
+// Bad
+const name = user && user.profile && user.profile.name;
+const value = data !== null && data !== undefined ? data : defaultValue;
+
+// Good - Use modern operators
+const name = user?.profile?.name;
+const value = data ?? defaultValue;
+```

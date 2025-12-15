@@ -1,0 +1,68 @@
+---
+description: Development workflow and Git conventions
+alwaysApply: true
+---
+# Development Workflow & Git Standards
+
+## CRITICAL DEVELOPMENT RULES
+
+### 1. ALWAYS Read Files Before Modifying
+
+**MANDATORY**: Before making ANY changes to a file, you MUST:
+- Read the ENTIRE file first
+- Understand the current implementation
+- Check for dependencies and usage patterns
+- Verify your changes won't break existing functionality
+
+**NEVER**:
+- Make blind search/replace changes
+- Guess file contents
+- Modify files without reading them first
+
+**Why**: Reading first prevents breaking changes, merge conflicts, and incorrect modifications.
+
+### 2. Utilize Existing Utilities (DRY Principle)
+
+**MANDATORY**: Before creating new components/utilities, you MUST:
+- Check if it already exists in `components/ui/`
+- Check if a utility exists in `lib/`
+- Search for similar patterns in the codebase
+- Reuse existing components/functions
+
+**Examples**:
+- Need a button? Check `Button` component first
+- Need date formatting? Check `format-utils.ts` or `date-utils.ts`
+- Need API calls? Check existing services in `lib/`
+
+**Why**: Prevents duplication, maintains consistency, reduces code to maintain.
+
+### 3. DO NOT Push Without Explicit Instruction
+
+**MANDATORY**: After committing:
+- Wait for user approval before pushing
+- User will say "push" or "deploy" when ready
+- NEVER automatically push after committing
+- NEVER assume user wants changes pushed immediately
+
+## Pre-Commit Workflow
+
+Before committing, your code will automatically be:
+1. **Linted** - ESLint checks and auto-fixes
+2. **Formatted** - Prettier formatting
+3. **Validated** - Commit message checked
+
+## Commit Process
+
+### Good commits
+```bash
+git commit -m "feat(auth): add oauth2 support"
+git commit -m "fix(queue): resolve memory leak in processor"
+git commit -m "docs(api): update rate limiting documentation"
+```
+
+### Bad commits (will be rejected)
+```bash
+git commit -m "fixed stuff"
+git commit -m "WIP"
+git commit -m "Feature: Added login"  # Wrong format
+```

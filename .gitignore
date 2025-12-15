@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local settings (keep in repo as example but ignore user's local)
+.claude/settings.local.json
+
+# Temp files
+Untitled
+*.tmp
