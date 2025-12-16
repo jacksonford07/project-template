@@ -2,38 +2,121 @@
 
 A production-ready Next.js 15 project template with TypeScript, Prisma, BMAD Method, and best practices baked in.
 
-## Quick Start
+## For New Users
 
-1. **Copy this template** to your new project folder
-2. **Update project name** in `web/package.json`
-3. **Install dependencies**:
+### One-Command Setup
+
+```bash
+# Clone the template
+git clone https://github.com/jacksonford07/project-template.git my-project
+cd my-project
+
+# Run the setup script
+./scripts/setup.sh
+```
+
+The setup script will:
+1. **Check your environment** - Node.js, pnpm, Git
+2. **Install GitHub CLI** (if missing) and log you in
+3. **Install Vercel CLI** (if missing) and log you in
+4. **Create a new GitHub repository** for your project
+5. **Link to Vercel** for deployment
+
+### What Gets Installed
+
+| Tool | Purpose | Auto-Install |
+|------|---------|--------------|
+| Node.js 18+ | Runtime | Manual (shows link) |
+| pnpm | Package manager | Yes (via npm) |
+| GitHub CLI | Repository management | Yes (via brew/apt) |
+| Vercel CLI | Deployment | Yes (via npm) |
+
+---
+
+## Quick Start (Manual)
+
+If you prefer manual setup:
+
+1. **Clone and rename**:
+   ```bash
+   git clone https://github.com/jacksonford07/project-template.git my-project
+   cd my-project
+   rm -rf .git && git init
+   ```
+
+2. **Install dependencies**:
    ```bash
    cd web
    pnpm install
    ```
-4. **Set up environment**:
+
+3. **Set up environment**:
    ```bash
    cp .env.example .env
    # Edit .env with your database URL
    ```
-5. **Start database** (if using Docker):
-   ```bash
-   cd ..
-   docker-compose up -d
-   ```
-6. **Run migrations**:
-   ```bash
-   cd web
-   pnpm prisma migrate dev --name init
-   ```
-7. **Update project context**:
-   ```bash
-   # Edit web/docs/bmad/project-context.md with your project details
-   ```
-8. **Start development**:
+
+4. **Start development**:
    ```bash
    pnpm dev
    ```
+
+5. **Deploy to Vercel**:
+   ```bash
+   vercel login  # If not logged in
+   vercel --prod
+   ```
+
+---
+
+## Creating Your Own Repository
+
+The setup script can create a new GitHub repository for you:
+
+```bash
+./scripts/setup.sh new
+```
+
+Or manually:
+
+```bash
+# 1. Remove template's git history
+rm -rf .git
+git init
+
+# 2. Create GitHub repo
+gh repo create my-project --private --source=. --push
+```
+
+---
+
+## Deployment
+
+### First-Time Deploy
+
+```bash
+cd web
+
+# Log in to Vercel (opens browser)
+vercel login
+
+# Deploy to production
+vercel --prod
+```
+
+### Subsequent Deploys
+
+```bash
+vercel --prod
+```
+
+### Using the Setup Script
+
+```bash
+./scripts/setup.sh deploy
+```
+
+---
 
 ## What's Included
 
@@ -140,6 +223,24 @@ Find templates in `web/docs/bmad/templates/`:
 - `story-template.md` - Development story format
 - `prd-template.md` - Product requirements document
 - `architecture-template.md` - Architecture document
+
+---
+
+## Setup Script Commands
+
+```bash
+# Interactive menu
+./scripts/setup.sh
+
+# Check environment only
+./scripts/setup.sh check
+
+# Create new project
+./scripts/setup.sh new
+
+# Deploy to Vercel
+./scripts/setup.sh deploy
+```
 
 ---
 

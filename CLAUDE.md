@@ -408,3 +408,77 @@ Every button in the UI should be testable by the user. This means:
 8. **Complete every feature** - no visual-only elements
 9. **Verify all interactivity** before marking done
 10. **Remove unused UI** rather than leaving it broken
+
+---
+
+## Deployment
+
+### First-Time Setup for New Users
+
+When a new user clones this template, use the setup script:
+
+```bash
+./scripts/setup.sh
+```
+
+This will:
+1. Check for required tools (Node.js, pnpm, Git)
+2. Install GitHub CLI if missing and prompt for login
+3. Install Vercel CLI if missing and prompt for login
+4. Create a new GitHub repository
+5. Link the project to Vercel
+
+### CLI Detection Pattern
+
+When deploying, always check if CLIs are available and the user is authenticated:
+
+```bash
+# Check Vercel CLI
+if ! command -v vercel &> /dev/null; then
+    echo "Installing Vercel CLI..."
+    npm install -g vercel
+fi
+
+# Check if logged in
+if ! vercel whoami &> /dev/null; then
+    echo "Please log in to Vercel..."
+    vercel login
+fi
+
+# Deploy
+vercel --prod
+```
+
+### Deployment Commands
+
+```bash
+# Interactive setup (recommended for new users)
+./scripts/setup.sh
+
+# Quick deploy (if already set up)
+./scripts/setup.sh deploy
+
+# Manual deploy
+cd web && vercel --prod
+```
+
+### Creating Separate Repositories
+
+Each project should have its own repository, not use template branches:
+
+```bash
+# Option 1: Use setup script
+./scripts/setup.sh new
+
+# Option 2: Manual
+rm -rf .git
+git init
+gh repo create my-project --private --source=. --push
+```
+
+### Environment Variables on Vercel
+
+When deploying to Vercel, set these environment variables in the Vercel dashboard:
+- `DATABASE_URL` - PostgreSQL connection string
+- `NEXTAUTH_SECRET` - Random string for auth
+- `NEXTAUTH_URL` - Your deployment URL
