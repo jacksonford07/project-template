@@ -482,3 +482,103 @@ When deploying to Vercel, set these environment variables in the Vercel dashboar
 - `DATABASE_URL` - PostgreSQL connection string
 - `NEXTAUTH_SECRET` - Random string for auth
 - `NEXTAUTH_URL` - Your deployment URL
+
+---
+
+## Module Library System
+
+The template includes a **module library** for saving and reusing patterns across projects. This is an iterative system - each project makes the template better.
+
+### Philosophy
+
+```
+Build → Refine → Extract → Reuse → Improve
+```
+
+When you build something reusable in a project, save it back to the template for future projects.
+
+### Available Modules
+
+```bash
+# List all modules
+./scripts/modules.sh list
+```
+
+Current modules:
+- `toast-system` - Context-based toast notifications
+- `filter-tabs` - Curated filter tabs (not dynamic)
+- `color-palette` - Interactive color swatches with copy
+- `typography-scale` - Typography showcase with copyable CSS
+
+### Importing Modules
+
+```bash
+# Import a module into current project
+./scripts/modules.sh import toast-system
+
+# Import with dependencies
+./scripts/modules.sh import color-palette
+# (will prompt to import toast-system dependency)
+```
+
+Files are copied to `src/modules/<category>/`.
+
+### Saving New Modules
+
+When you build something reusable:
+
+```bash
+# Interactive save wizard
+./scripts/modules.sh save
+```
+
+Or manually:
+1. Copy file to `modules/<category>/`
+2. Add entry to `modules/registry.json`
+3. Push to template repo
+
+### When to Save a Module
+
+**DO save when:**
+- Used pattern in 2+ projects
+- Solves a common problem
+- Self-contained with clear interface
+- Well-documented
+
+**DON'T save:**
+- Project-specific business logic
+- Incomplete/experimental code
+- Hardcoded values
+
+### Module Structure
+
+```tsx
+/**
+ * Module Name
+ *
+ * Description of what this module does.
+ *
+ * Dependencies: list any required modules
+ *
+ * @module module-id
+ * @source iteration-name
+ */
+
+// Types
+interface Props { ... }
+
+// Export
+export function MyModule() { ... }
+
+// Usage example in comments at bottom
+```
+
+### Pushing Module Updates
+
+After saving or modifying modules:
+
+```bash
+./scripts/modules.sh push
+```
+
+This commits and pushes to the template repository.

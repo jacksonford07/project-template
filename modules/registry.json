@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "description": "Reusable modules extracted from projects. Import into new projects as needed.",
+  "modules": [
+    {
+      "id": "toast-system",
+      "name": "Toast Notification System",
+      "description": "Context-based toast notifications with success/info/error types",
+      "category": "patterns",
+      "files": [
+        "patterns/toast-system.tsx"
+      ],
+      "dependencies": [],
+      "tags": ["ui", "feedback", "notifications", "context"],
+      "addedFrom": "iteration3",
+      "addedAt": "2024-12-16"
+    },
+    {
+      "id": "color-palette",
+      "name": "Color Palette with Copy",
+      "description": "Interactive color swatches with click-to-copy functionality",
+      "category": "components",
+      "files": [
+        "components/color-palette.tsx"
+      ],
+      "dependencies": ["toast-system"],
+      "tags": ["ui", "design-system", "colors", "clipboard"],
+      "addedFrom": "iteration4",
+      "addedAt": "2024-12-16"
+    },
+    {
+      "id": "typography-scale",
+      "name": "Typography Scale Display",
+      "description": "Typography showcase with copyable CSS values",
+      "category": "components",
+      "files": [
+        "components/typography-scale.tsx"
+      ],
+      "dependencies": ["toast-system"],
+      "tags": ["ui", "design-system", "typography"],
+      "addedFrom": "iteration4",
+      "addedAt": "2024-12-16"
+    },
+    {
+      "id": "filter-tabs",
+      "name": "Curated Filter Tabs",
+      "description": "Tab-based filtering with curated categories (not dynamic)",
+      "category": "patterns",
+      "files": [
+        "patterns/filter-tabs.tsx"
+      ],
+      "dependencies": [],
+      "tags": ["ui", "filtering", "navigation"],
+      "addedFrom": "iteration3",
+      "addedAt": "2024-12-16"
+    }
+  ]
+}
