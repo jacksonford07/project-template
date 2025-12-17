@@ -219,9 +219,7 @@ cd web && pnpm install
 
 # Set up environment
 cp .env.example .env
-
-# Start database
-docker-compose up -d
+# Edit .env with your database credentials
 
 # Run migrations
 pnpm prisma migrate dev --name init

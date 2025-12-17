@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 
 import { auth } from './auth';
+import { env, isDevelopment } from './env';
 
 export interface AuthContext {
   userId: string;
@@ -59,18 +60,17 @@ export function hasPermission(
  */
 export function isAdminRequest(req?: NextRequest): boolean {
   // Method 1: Environment variable flag
-  if (process.env['ADMIN_MODE'] === 'true') {
+  if (env.ADMIN_MODE === true) {
     return true;
   }
 
   // Method 2: Secret header
-  const adminSecret = process.env['ADMIN_SECRET'];
-  if (adminSecret && req?.headers.get('x-admin-secret') === adminSecret) {
+  if (env.ADMIN_SECRET && req?.headers.get('x-admin-secret') === env.ADMIN_SECRET) {
     return true;
   }
 
   // Method 3: IP allowlist
-  const allowedIPs = process.env['ADMIN_IPS']?.split(',') ?? [];
+  const allowedIPs = env.ADMIN_IPS ?? [];
   if (allowedIPs.length > 0 && req) {
     const clientIP =
       req.headers.get('x-forwarded-for')?.split(',')[0] ??
@@ -82,7 +82,7 @@ export function isAdminRequest(req?: NextRequest): boolean {
   }
 
   // Method 4: Development mode
-  if (process.env.NODE_ENV === 'development') {
+  if (isDevelopment) {
     return true;
   }
 

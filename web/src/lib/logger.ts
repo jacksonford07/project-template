@@ -9,6 +9,8 @@
  * - Performance monitoring
  */
 
+import { isDevelopment } from './env';
+
 export interface LogContext {
   userId?: string;
   route?: string;
@@ -23,7 +25,7 @@ export const logger = {
    * Only shows in development mode
    */
   debug: (context: string, message: string, data?: LogContext): void => {
-    if (process.env.NODE_ENV === 'development') {
+    if (isDevelopment) {
       // eslint-disable-next-line no-console
       console.log(`[DEBUG] [${context}] ${message}`, data ?? '');
     }

@@ -1,16 +1,25 @@
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+// import Google from 'next-auth/providers/google';
+// import GitHub from 'next-auth/providers/github';
 
 import { prisma } from './prisma';
+import { env } from './env';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  secret: env.NEXTAUTH_SECRET,
   providers: [
-    // Add your auth providers here
-    // Example:
+    // Uncomment and configure providers as needed:
+    //
     // Google({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    //   clientId: env.GOOGLE_CLIENT_ID!,
+    //   clientSecret: env.GOOGLE_CLIENT_SECRET!,
+    // }),
+    //
+    // GitHub({
+    //   clientId: env.GITHUB_ID!,
+    //   clientSecret: env.GITHUB_SECRET!,
     // }),
   ],
   callbacks: {

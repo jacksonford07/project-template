@@ -1,0 +1,7 @@
+# Secrets scanning with gitleaks (if installed)
+if command -v gitleaks &> /dev/null; then
+  gitleaks protect --staged --config .gitleaks.toml --verbose
+fi
+
+# Lint staged files
+cd web && pnpm lint-staged

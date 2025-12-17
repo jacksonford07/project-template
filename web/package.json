@@ -14,7 +14,13 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:dev": "SEED_ENV=development tsx prisma/seed.ts",
+    "db:seed:staging": "SEED_ENV=staging tsx prisma/seed.ts",
+    "db:seed:prod": "SEED_ENV=production tsx prisma/seed.ts",
     "postinstall": "prisma generate",
     "prepare": "cd .. && husky web/.husky",
     "validate": "pnpm lint && pnpm type-check",
@@ -42,6 +48,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -60,7 +67,8 @@
     "standard-version": "^9.5.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.6"
+    "vitest": "^2.1.6",
+    "@playwright/test": "^1.49.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

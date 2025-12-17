@@ -25,6 +25,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   projects      UserProject[]
+  notes         Note[]
 }
 
 model Account {
@@ -98,6 +99,30 @@ model UserProject {
   @@unique([userId, projectId])
   @@index([userId])
   @@index([projectId])
+}
+
+// ==========================================
+// Example Feature: Notes
+// ==========================================
+// This is a working example to demonstrate the template patterns.
+// Feel free to modify or remove for your project.
+
+model Note {
+  id        String    @id @default(cuid())
+  title     String
+  content   String?   @db.Text
+  pinned    Boolean   @default(false)
+  color     String?   // e.g., "yellow", "blue", "green"
+  userId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([deletedAt])
+  @@index([pinned])
 }
 
 // ==========================================
