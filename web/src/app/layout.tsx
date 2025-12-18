@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import { UserProvider } from '@/contexts/UserContext';
+import { Providers } from './providers';
 
 import './globals.css';
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <UserProvider>{children}</UserProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
