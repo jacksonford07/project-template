@@ -23,57 +23,41 @@ This is a Next.js 15 project with TypeScript, Prisma ORM, and NextAuth for authe
 
 ## BMAD Method Integration
 
-### What is BMAD?
-BMAD (Breakthrough Method for Agile AI-Driven Development) provides specialized AI agents for different development phases. Each agent has a specific role and expertise.
+BMAD provides AI agents for structured development. **Most tasks only need Quick Flow.**
 
-### Available Agents
+### Quick Start
 
-| Agent | Command | Purpose |
-|-------|---------|---------|
-| **Dev (Amelia)** | `/bmad/dev` | Implement stories with TDD |
-| **Architect (Winston)** | `/bmad/architect` | System design & architecture |
-| **PM (Sarah)** | `/bmad/pm` | Product requirements & stories |
-| **Quick Flow** | `/bmad/quick-flow` | Rapid small feature dev |
-| **Analyst (Maya)** | `/bmad/analyst` | Requirements elicitation |
-| **Scrum Master (Alex)** | `/bmad/sm` | Sprint facilitation |
-| **Test Architect (Quinn)** | `/bmad/test-architect` | Testing strategy |
+```bash
+# 90% of tasks - use this
+/bmad/quick-flow
+"Fix the login bug" or "Add a logout button"
 
-### Workflow Tracks
+# When you need a story first
+/bmad/pm → creates story → /bmad/dev → implements it
 
-#### Quick Flow (< 5 min)
-For: Bug fixes, small features, refactoring
-```
-User: /bmad/quick-flow
-User: Fix the login redirect bug
+# For architecture decisions
+/bmad/architect → designs system → /bmad/dev → implements it
 ```
 
-#### Standard Flow (< 15 min)
-For: Medium features requiring planning
-```
-1. /bmad/pm → Create story
-2. /bmad/architect → Design solution
-3. /bmad/dev → Implement
-```
+### Which Agent?
 
-#### Enterprise Flow (< 30 min)
-For: Large features, new systems
-```
-1. /bmad/analyst → Requirements
-2. /bmad/pm → PRD & stories
-3. /bmad/architect → Architecture
-4. /bmad/dev → Implementation
-5. /bmad/test-architect → Test strategy
-```
+| Task Type | Agent | Command |
+|-----------|-------|---------|
+| Bug fix, small feature | Quick Flow | `/bmad/quick-flow` |
+| Feature needing story | PM then Dev | `/bmad/pm` → `/bmad/dev` |
+| Architecture decision | Architect | `/bmad/architect` |
+| Implement a story | Dev | `/bmad/dev` |
 
-### Project Context
+**Full guide**: See `web/docs/bmad/README.md` for detailed workflows, handoffs, and examples.
 
-All agents reference: `web/docs/bmad/project-context.md`
+### Key Files
 
-**Update this file** with:
-- Tech stack decisions
-- Architecture patterns
-- Coding standards
-- Known constraints
+| File | Purpose |
+|------|---------|
+| `web/docs/bmad/README.md` | Full BMAD guide with decision trees |
+| `web/docs/bmad/project-context.md` | Project standards (update as you go) |
+| `web/docs/bmad/examples/` | Example story and architecture docs |
+| `web/docs/bmad/templates/` | Templates for stories, PRDs, architecture |
 
 ---
 
