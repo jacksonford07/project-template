@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 const compat = new FlatCompat({ baseDirectory: __dirname });
 
 const eslintConfig = [
+  // next/core-web-vitals already includes jsx-a11y plugin
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
@@ -96,6 +97,27 @@ const eslintConfig = [
       // React rules
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
+
+      // Accessibility rules (elevate from warn to error)
+      "jsx-a11y/alt-text": "error",
+      "jsx-a11y/anchor-has-content": "error",
+      "jsx-a11y/anchor-is-valid": "error",
+      "jsx-a11y/aria-props": "error",
+      "jsx-a11y/aria-role": "error",
+      "jsx-a11y/aria-unsupported-elements": "error",
+      "jsx-a11y/role-has-required-aria-props": "error",
+      "jsx-a11y/role-supports-aria-props": "error",
+      "jsx-a11y/tabindex-no-positive": "error",
+      "jsx-a11y/heading-has-content": "error",
+      "jsx-a11y/html-has-lang": "error",
+      "jsx-a11y/img-redundant-alt": "warn",
+      "jsx-a11y/interactive-supports-focus": "error",
+      "jsx-a11y/label-has-associated-control": "error",
+      "jsx-a11y/no-access-key": "error",
+      "jsx-a11y/no-autofocus": "warn",
+      "jsx-a11y/no-distracting-elements": "error",
+      "jsx-a11y/no-redundant-roles": "warn",
+      "jsx-a11y/scope": "error",
 
       // Code quality thresholds
       "complexity": ["warn", 20],

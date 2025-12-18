@@ -2,11 +2,13 @@
  * Component Testing Example
  *
  * Demonstrates how to test React components with Testing Library.
+ * Includes accessibility testing with jest-axe.
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { axe } from 'jest-axe';
 
 // Example Button component (replace with your actual component)
 interface ButtonProps {
@@ -115,6 +117,24 @@ describe('Button Component', () => {
       await userEvent.tab();
 
       expect(screen.getByRole('button')).not.toHaveFocus();
+    });
+
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Button>Accessible Button</Button>);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations when disabled', async () => {
+      const { container } = render(<Button disabled>Disabled Button</Button>);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations when loading', async () => {
+      const { container } = render(<Button loading>Loading Button</Button>);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 });

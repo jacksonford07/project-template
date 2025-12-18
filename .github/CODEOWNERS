@@ -1,0 +1,22 @@
+# Code owners file
+# These owners will be requested for review when someone opens a PR that modifies their area
+
+# Default owners for everything in the repo
+* @your-username
+
+# Frontend
+/web/src/app/ @your-username
+/web/src/components/ @your-username
+
+# Backend/API
+/web/src/app/api/ @your-username
+
+# Database
+/web/prisma/ @your-username
+
+# CI/CD
+/.github/ @your-username
+
+# Documentation
+/docs/ @your-username
+*.md @your-username

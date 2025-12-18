@@ -1,0 +1,62 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommitTypeAll(chore)",
+    "group:allNonMajor"
+  ],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "automerge": false,
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 5,
+  "packageRules": [
+    {
+      "description": "Auto-merge patch updates for dev dependencies",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Group ESLint-related packages",
+      "matchPackagePatterns": ["^eslint", "^@typescript-eslint"],
+      "groupName": "eslint"
+    },
+    {
+      "description": "Group Prisma packages",
+      "matchPackagePatterns": ["^@?prisma"],
+      "groupName": "prisma"
+    },
+    {
+      "description": "Group testing packages",
+      "matchPackagePatterns": [
+        "^vitest",
+        "^@vitest",
+        "^@testing-library",
+        "^@playwright",
+        "^playwright"
+      ],
+      "groupName": "testing"
+    },
+    {
+      "description": "Group Next.js and React",
+      "matchPackageNames": ["next", "react", "react-dom"],
+      "matchPackagePatterns": ["^@types/react"],
+      "groupName": "next-react"
+    },
+    {
+      "description": "Group TypeScript packages",
+      "matchPackagePatterns": ["^typescript", "^@types/node"],
+      "groupName": "typescript"
+    },
+    {
+      "description": "Disable major updates for framework packages (manual review)",
+      "matchPackageNames": ["next", "react", "react-dom"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ],
+  "schedule": ["before 7am on Monday"],
+  "timezone": "America/New_York"
+}

@@ -1,32 +1,50 @@
 ---
-name: Bug Report
-about: Report a bug to help us improve
+name: Bug report
+about: Create a report to help us improve
 title: '[BUG] '
-labels: bug
+labels: bug, needs-triage
 assignees: ''
 ---
 
-## Description
-A clear and concise description of the bug.
+## Describe the bug
 
-## Steps to Reproduce
+A clear and concise description of what the bug is.
+
+## To Reproduce
+
+Steps to reproduce the behavior:
+
 1. Go to '...'
-2. Click on '...'
-3. See error
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-## Expected Behavior
-What you expected to happen.
+## Expected behavior
 
-## Actual Behavior
-What actually happened.
-
-## Environment
-- OS: [e.g., macOS 14.0, Windows 11]
-- Node version: [e.g., 20.10.0]
-- Browser (if applicable): [e.g., Chrome 120]
+A clear and concise description of what you expected to happen.
 
 ## Screenshots
-If applicable, add screenshots.
 
-## Additional Context
-Any other context about the problem.
+If applicable, add screenshots to help explain your problem.
+
+## Environment
+
+- OS: [e.g. macOS, Windows, Linux]
+- Browser: [e.g. Chrome, Safari, Firefox]
+- Node version: [e.g. 20.x]
+- Package manager: [e.g. pnpm 9.x]
+
+## Additional context
+
+Add any other context about the problem here.
+
+## Logs
+
+<details>
+<summary>Error logs (if applicable)</summary>
+
+\`\`\`
+Paste any relevant error logs here
+\`\`\`
+
+</details>
