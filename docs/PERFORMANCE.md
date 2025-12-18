@@ -134,6 +134,12 @@ return new Response(data, {
 
 ### Redis Caching (Optional)
 
+> **Note**: Redis is not included by default. Install it if needed:
+> ```bash
+> pnpm add ioredis
+> pnpm add -D @types/ioredis
+> ```
+
 ```typescript
 // lib/cache.ts
 import Redis from 'ioredis';

@@ -89,8 +89,35 @@ export function isAdminRequest(req?: NextRequest): boolean {
   return false;
 }
 
+/**
+ * Get a valid access token for the user.
+ *
+ * ⚠️  MUST IMPLEMENT FOR PRODUCTION
+ *
+ * This is a placeholder that returns a fake token. Before deploying to production,
+ * implement actual token retrieval based on your auth provider:
+ *
+ * - OAuth providers: Retrieve and refresh OAuth tokens from the database
+ * - JWT: Generate or validate JWT tokens
+ * - Session-based: Return session ID or create API tokens
+ *
+ * @example
+ * // For OAuth (e.g., Google, GitHub):
+ * async function getValidToken(userId: string): Promise<string | null> {
+ *   const account = await prisma.account.findFirst({
+ *     where: { userId, provider: 'google' },
+ *   });
+ *   if (!account?.access_token) return null;
+ *
+ *   // Check if token is expired and refresh if needed
+ *   if (account.expires_at && account.expires_at * 1000 < Date.now()) {
+ *     const refreshed = await refreshOAuthToken(account.refresh_token);
+ *     return refreshed.access_token;
+ *   }
+ *   return account.access_token;
+ * }
+ */
 async function getValidToken(userId: string): Promise<string | null> {
-  // TODO: Implement token retrieval/refresh logic
-  // This is a placeholder - implement based on your auth provider
+  // ⚠️ PLACEHOLDER - Replace with actual implementation before production
   return `token-${userId}`;
 }

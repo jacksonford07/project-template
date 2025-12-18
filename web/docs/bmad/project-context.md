@@ -56,7 +56,8 @@ src/
 ├── contexts/     # React contexts
 ├── hooks/        # Custom hooks
 ├── lib/          # Utilities
-│   └── api-handlers/  # Shared route handlers
+│   ├── api/      # API middleware & handlers
+│   └── features/ # Optional features (i18n, PWA, etc.)
 ├── styles/       # Style constants
 └── types/        # TypeScript types
 ```
