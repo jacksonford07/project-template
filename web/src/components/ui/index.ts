@@ -36,3 +36,5 @@ export {
 } from './Skeleton';
 
 export { ErrorBoundary, AsyncBoundary } from './ErrorBoundary';
+
+export { ThemeToggle, ThemeSelector, ThemeButtons } from './ThemeToggle';
