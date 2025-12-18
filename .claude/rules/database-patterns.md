@@ -2,23 +2,40 @@
 
 ## Schema Conventions
 
-### Soft Deletes (ALWAYS)
-Every model with user data MUST have soft delete:
+### Soft Deletes (When Appropriate)
+
+**USE soft deletes for:**
+- User-generated content (notes, posts, comments)
+- Business entities (projects, orders, customers)
+- Data with audit/compliance requirements
+- Anything users might want to "undo"
 
 ```prisma
-model User {
+model Note {
   id        String    @id @default(cuid())
-  email     String    @unique
-  name      String?
-
-  // Soft delete
-  deletedAt DateTime?
-
-  // Standard timestamps
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  title     String
+  deletedAt DateTime?  // Soft delete
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 ```
+
+**DON'T use soft deletes for:**
+- Session/token data (hard delete on expiry)
+- Log/audit tables (use retention policies)
+- Cache/temporary data
+- High-volume transient data
+
+```prisma
+// NO soft delete - use scheduled cleanup instead
+model ErrorLog {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime @default(now())
+  // ... no deletedAt
+}
+```
+
+See `docs/DATABASE.md` for complete soft delete patterns.
 
 ### Standard Timestamps
 Every model should have:

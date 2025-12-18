@@ -11,6 +11,9 @@ datasource db {
 // ==========================================
 // Authentication (NextAuth)
 // ==========================================
+// Auth tables do NOT use soft deletes.
+// NextAuth manages session cleanup automatically.
+// Users are typically kept for audit trails.
 
 model User {
   id            String    @id @default(cuid())
@@ -66,6 +69,9 @@ model VerificationToken {
 // ==========================================
 // Business Logic
 // ==========================================
+// Business entities USE soft deletes (deletedAt field).
+// This allows data recovery and audit trails.
+// See docs/DATABASE.md for soft delete patterns.
 
 model Project {
   id            String        @id @default(cuid())
@@ -128,6 +134,9 @@ model Note {
 // ==========================================
 // Observability
 // ==========================================
+// These tables do NOT use soft deletes.
+// Use scheduled cleanup/retention policies instead.
+// See docs/DATABASE.md for retention strategy.
 
 model ErrorLog {
   id            Int       @id @default(autoincrement())
